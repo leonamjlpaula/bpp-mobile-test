@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BPPMbileTest</string>
+    <string name="password">Senha</string>
+    <string name="enter">Login</string>
+    <string name="email">E-mail</string>
+    <string name="warning">Aviso</string>
+    <string name="ok">OK</string>
+    <string name="no_email_password">Digite e-mail e senha para login.</string>
+    <string name="unexpected_error">Error inesperado.</string>
+</resources>
