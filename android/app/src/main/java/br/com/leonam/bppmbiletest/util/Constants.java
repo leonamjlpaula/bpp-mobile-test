@@ -1,4 +1,4 @@
-package br.com.leonam.bppmbiletest;
+package br.com.leonam.bppmbiletest.util;
 
 public class Constants {
     public static final String URL_LOGIN = "http://test-mobile.dev-bpp.com.br/login";

@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -23,13 +21,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.leonam.bppmbiletest.util.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static final String TAG = LoginActivity.class.getSimpleName();
 
     @BindView(R.id.et_login)
     TextInputEditText mEtLogin;
@@ -45,9 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        mEtLogin.setText("waldisney@brasilprepagos.com.br");
-        mEtPassword.setText("Br@silPP123");
     }
 
     @OnClick(R.id.bt_login)
@@ -66,20 +60,18 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.d(TAG, response);
                         mPbLoading.setVisibility(View.GONE);
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            if(jsonObject.optInt(Constants.CODE) == Constants.CODE_SUCCESS ){
-                                startMainActivity();
-//                            }
-//                            else
-//                                showErrorDialog(jsonObject.optString(Constants.MESSAGE));
-//                        }
-//                        catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if(jsonObject.optInt(Constants.CODE) == Constants.CODE_SUCCESS ){
+                        startMainActivity();
+                            }
+                            else
+                                showErrorDialog(jsonObject.optString(Constants.MESSAGE));
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener()
@@ -87,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.e(TAG, error.toString());
                         showErrorDialog(getString(R.string.unexpected_error));
                         mPbLoading.setVisibility(View.GONE);
                     }
@@ -98,11 +89,8 @@ public class LoginActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<>();
                 params.put(Constants.EMAIL, mEtLogin.getText().toString());
-                String base64 = Base64.encodeToString(mEtPassword.getText().toString().getBytes(), Base64.DEFAULT);
-                Log.d(TAG, mEtLogin.getText().toString());
-                Log.d(TAG, base64);
+                String base64 = Base64.encodeToString(mEtPassword.getText().toString().getBytes(), Base64.NO_WRAP);
                 params.put(Constants.PASSWORD, base64);
-                Log.d(TAG, params.toString());
 
                 return params;
             }
@@ -110,6 +98,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(getApplicationContext()).add(postRequest);
     }
+
+
 
     private void showErrorDialog(String message) {
 
